@@ -3,10 +3,10 @@ import mediapipe as mp
 
 cap = cv2.VideoCapture(0)
 
-mp_hands = mp.solutions.hands
-mp_drawing = mp.solutions.drawing_utils
+mp_hands = mp.solutions.hands  # type: ignore
+mp_drawing = mp.solutions.drawing_utils  # type: ignore
 
-hands = mp_hands.Hands(min_detection_confidence=0.8,
+hands = mp_hands.Hands(min_detection_confidence=0.7,
                        min_tracking_confidence=0.5)
 
 tipIds = [4, 8, 12, 16, 20]
@@ -23,6 +23,9 @@ def countFingers(image, hand_landmarks, handNo=0):
             finger_tip_y = landmarks[lm_index].y
             finger_bottom_y = landmarks[lm_index - 2].y
 
+            thumb_tip_x = landmarks[lm_index].x
+            thumb_bottom_tip_x = landmarks[lm_index - 2].x
+
             if lm_index != 4:
                 if finger_tip_y < finger_bottom_y:
                     fingers.append(1)
@@ -31,6 +34,14 @@ def countFingers(image, hand_landmarks, handNo=0):
                 if finger_tip_y > finger_bottom_y:
                     fingers.append(0)
                     print("FINGER with id ", lm_index, " is Closed")
+
+            else:
+                if thumb_tip_x > thumb_bottom_tip_x:
+                    fingers.append(1)
+                    print("Thumb is open.")
+                if thumb_tip_x < thumb_bottom_tip_x:
+                    fingers.append(0)
+                    print("Thumb is closed")
 
         totalFingers = fingers.count(1)
 
