@@ -3,3 +3,6 @@
 /Scripts
 /.vscode
 /Include
+
+#files
+pyvenv.cfg
