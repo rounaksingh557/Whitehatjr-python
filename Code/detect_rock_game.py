@@ -17,13 +17,11 @@ while True:
     normalized_image = test_image/255.0
     prediction = model.predict(normalized_image)
 
-    print(prediction)
+    rock = int(prediction[0][0]*100)
+    paper = int(prediction[0][1]*100)
+    scissor = int(prediction[0][2]*100)
 
-    # rock = int(prediction[0][0]*100)
-    # paper = int(prediction[0][1]*100)
-    # scissor = int(prediction[0][2]*100)
-
-    # print(f"Rock: {rock} %, Paper: {paper} %, Scissor: {scissor} %")
+    print(f"Rock: {rock} %, Paper: {paper} %, Scissor: {scissor} %")
 
     cv2.imshow('frame', frame)
 
